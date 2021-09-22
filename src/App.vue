@@ -3,7 +3,6 @@
    <!-- 알림창 -->
    <alert-bar></alert-bar>
    <!-- 스피너 -->
-   <img src="images/memo.png" alt="" width="100px">
    <spinner></spinner>
     <!-- 사용자 정보가 없다면 -->
    <template v-if="!getUser">
