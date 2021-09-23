@@ -1,21 +1,30 @@
 <template>
     <v-card class="pa-2">
-        <h3>대표 카테고리</h3>
+        <h3 class="overline">대표 카테고리</h3>
         <!-- 대표 카테고리 -->
         <v-chip class="my-2 subtitle-1 white--text font-weight-bold" :color="unitCard.bgcolor">
             {{unitCard.Category && unitCard.Category.type}}</v-chip>
         <!-- 변경할 대표 카테고리 리스트 -->
         <div v-if="edit.editState">
             <category-list :label="`변경할 대표 카테고리`" :noDataTxt="`더이상 카테고리가 없습니다.`" :categoryList="Categorys"
-                @updateInput="onupdateInput" :isEdit="category.isEdit"></category-list>
+                @updateInput="onupdateInput" :isEdit="category.isEdit" ></category-list>
             <!-- 변경할 대표 카테고리가 있을 경우에만 -->
             <div class="py-1" v-if="mainCategory.id">
                 <!--대표 카테고리 수정 버튼 -->
-                <v-btn color="cyan" dark elevation="2" small @click.prevent="onupdateCategory">대표 카테고리 수정</v-btn>
+                <v-btn color="primary" class="mb-2" dark elevation="2" small @click.prevent="onupdateCategory">대표 카테고리 수정</v-btn>
             </div>
         </div>
-        <!-- 현재 가지고 있는 카테고리 리스트 -->
-        <category-chip :selectList="unitCard.CardTypes || []"></category-chip>
+        <!--카테고리 리스트 -->
+        <div class="category_list">
+          <h3 class="overline">카테고리 리스트</h3>
+           <!--카테고리 리스트 이미지 추가 로딩 -->
+          <div class="imageloading" v-if="imageLoading">
+            카테고리 추가중...
+            <v-progress-circular indeterminate color="primary" :width="2" :size="20"></v-progress-circular>
+          </div>
+          <!-- 현재 가지고 있는 카테고리 리스트 -->
+          <category-chip :selectList="unitCard.CardTypes || []"></category-chip>
+        </div>
         <div v-if="edit.editState">
             <!-- 카테고리 추가 폼 보여주기 버튼 -->
             <v-btn type="button" class="my-1" text small @click="addchangeState" rounded outlined color="info">원하시는
@@ -52,6 +61,7 @@
 import { mapActions, mapMutations, mapState } from 'vuex'
 import CategoryChip from '../Categorys/CategoryChip.vue'
 import CategoryList from '../Categorys/CategoryList.vue'
+import { loadImage } from '../../utils/loadImage'
 export default {
   components: { CategoryChip, CategoryList },
   computed: {
@@ -68,6 +78,7 @@ export default {
     return {
       // 이미지 파일
       files: [],
+      imageLoading: false,
       //  이미지 유효성 검사
       imgRules: [
         value => !value || value.size < 2000000 || '2mb 이하여야 합니다.',
@@ -89,27 +100,36 @@ export default {
     ...mapActions(['CREATCATEGORY', 'UPDATECATEGORY']),
     ...mapMutations(['UPDATE_STATE']),
     //   카테고리 추가
-    onAddCategory () {
+    async onAddCategory () {
       if (this.category.input.trim().length < 0) {
         this.category.errmsg = '카테고리 이름을 입력해주세요'
         return
       }
-      // FormDta로 이미지와 함께 저장
-      const data = new FormData()
-      // 카테고리 이름
-      data.append('type', this.category.input)
-      // 카테고리 이미지
-      data.append('image', this.files)
-      this.CREATCATEGORY({
-        BoardId: this.unitCard.BoardId,
-        CardId: this.unitCard.id,
-        info: data
-      })
-        .then(() => {
-          // 카테고리 데이터 초기화
-          this.errmsg = ''
-          this.categoryReset()
+      try {
+        this.imageLoading = true
+        // FormDta로 이미지와 함께 저장
+        const data = new FormData()
+        // 카테고리 이름
+        data.append('type', this.category.input)
+        // 카테고리 이미지
+        data.append('image', this.files)
+        await this.CREATCATEGORY({
+          BoardId: this.unitCard.BoardId,
+          CardId: this.unitCard.id,
+          info: data
         })
+          .then((data) => {
+            // 추가한 카테고리 이미지를 불러오고 이미지가 로드되엇는지 확인
+            loadImage(data.category[0] || '')
+            this.category.errmsg = ''
+            this.categoryReset()
+            this.imageLoading = false
+          })
+      } catch (error) {
+        console.log(error)
+        this.category.errmsg = error.response ? error.response.data.msg : error
+        this.imageLoading = false
+      }
     },
     //  대표 카테고리 수정
     onupdateCategory () {
@@ -132,6 +152,8 @@ export default {
     },
     // 카테고리 추가 편집 모드 상태
     addchangeState () {
+      // 입력값 초기화
+      this.category.input = ''
       this.UPDATE_STATE({
         edit: {
           editState: true,
@@ -156,5 +178,7 @@ export default {
 </script>
 
 <style>
-
+.imageloading{text-align: center; font-size: 12px;}
+.category_list{position: relative;}
+.category_list .imageloading{position: absolute; z-index: 1; left:0; top:0; width:100%; height:100%; background-color:#fff; display: flex; justify-content: center; align-items: center;}
 </style>

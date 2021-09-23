@@ -13,12 +13,6 @@
             </router-link>
             <!-- 제목 -->
             <v-toolbar-title class="black--text font-weight-bold">내 카드</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <div v-if="edit.editState">
-              <v-btn id="card-edit-btn" @click="resetState" class="indigo darken-1 mr-3" dark text>
-                수정모드 취소
-              </v-btn>
-            </div>
           </v-toolbar>
           <!-- container -->
           <v-container class="edit_container">
@@ -122,7 +116,8 @@ export default {
           editState: false,
           addState: false,
           removeState: false
-        }
+        },
+        mainCategory: {}
       })
     }
   }

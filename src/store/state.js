@@ -2,6 +2,8 @@ import { getAuthFromCookie, getUserFromCookie } from '../utils/cookie'
 export default {
   // 로딩
   loading: false,
+  // 이미지 로딩
+  imageLoading: false,
   // 에러 여부
   hasError: false,
   errMsg: '',

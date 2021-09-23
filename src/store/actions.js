@@ -1,6 +1,7 @@
 import { auth } from '../api/auth'
 // import router from '../router/index'
 import { list, category, search } from '../api/list'
+
 export default {
   // 회원가입
   async REGISTER ({ commit }, userInfo) {
@@ -123,13 +124,9 @@ export default {
   },
   // 카테고리 추가
   async CREATCATEGORY ({ commit }, { BoardId, CardId, info }) {
-    try {
-      const { data } = await category.create({ BoardId, CardId, info })
-      commit('ADD_CATEGORY', data.category[0])
-      return data
-    } catch (error) {
-      console.log(error)
-    }
+    const { data } = await category.create({ BoardId, CardId, info })
+    commit('ADD_CATEGORY', data.category[0])
+    return data
   },
   // 카테고리 삭제
   async DELETECATEGORY ({ commit }, { BoardId, CardId, choice }) {
@@ -147,10 +144,15 @@ export default {
   async UPDATECATEGORY ({ commit, state }, { BoardId, CardId, choice }) {
     try {
       const { data } = await category.update({ BoardId, CardId, CategoryId: choice.id })
+      // 카테고리 정보를 저장하고, 알림창 보여주기
       commit('UPDATE_STATE', {
         unitCard: {
           ...state.unitCard,
           Category: choice
+        },
+        alert: {
+          success: true,
+          text: data.msg
         }
       })
       return data

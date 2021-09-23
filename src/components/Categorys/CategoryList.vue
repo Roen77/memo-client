@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-select class="pt-4 category_select" :value="value" :rules="selectRules" :items="categoryList" item-text="type"
-            item-value="type" return-object :label="label" :multiple="!isEdit" hide-selected outlined clearable
+            item-value="type" return-object :label="label" :multiple="!isEdit" hide-selected outlined :clearable="!isEdit"
         @click:clear="$emit('clearCategory')"
          @change="$emit('updateInput',$event)" :no-data-text=" noDataTxt"></v-select>
     </div>

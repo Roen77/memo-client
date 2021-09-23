@@ -6,7 +6,10 @@
             <!-- 카테고리 이미지가 아니라면 아이콘 보여주기 -->
             <v-icon v-if="!choice.imagetype" left>{{choice.icon}}</v-icon>
             <!-- 카테고리 이미지라면 이미지 보여주기 -->
-            <v-avatar class="mr-1" v-else><img :src="choice.icon" alt=""></v-avatar>
+            <v-avatar class="mr-1" v-else>
+              <v-progress-circular v-if="$store.state.imageLoading"  :size="25" indeterminate color="red"></v-progress-circular>
+              <img v-else :src="choice.icon" alt="#">
+            </v-avatar>
             {{choice.type}}
         </v-chip>
         <!-- 오류 메세지 -->
