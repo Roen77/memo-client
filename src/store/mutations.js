@@ -36,7 +36,7 @@ export default {
   },
   // 카테고리 추가
   ADD_CATEGORY (state, category) {
-    state.unitCard.CardTypes=[...state.unitCard.CardTypes,category]
+    state.unitCard.CardTypes = [...state.unitCard.CardTypes, category]
   },
   // 카테고리 삭제
   DELETE_CATEGORYS (state, choiceCategory) {
