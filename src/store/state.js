@@ -6,6 +6,7 @@ export default {
   imageLoading: false,
   // 에러 여부
   hasError: false,
+  // 에러 메세지
   errMsg: '',
   // 쿠키에 저장된 정보를 가져오고,없으면 빈문자열을 저장합니다.
   user: getUserFromCookie() || '',

@@ -4,9 +4,11 @@
             <v-col cols="12" sm="8" md="8">
                 <v-card class="elevation-12">
                     <v-window v-model="step">
+                      <!-- 로그인 폼 -->
                         <v-window-item :value="1">
                             <login-form @increaseStep="onIncreseStep"></login-form>
                         </v-window-item>
+                        <!-- 회원가입 폼 -->
                         <v-window-item :value="2">
                             <register-form @decreaseStep="onDecreaseStep"></register-form>
                         </v-window-item>

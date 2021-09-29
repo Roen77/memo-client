@@ -7,14 +7,13 @@ export const list = {
   },
   // 보드,카드 가져오기
   fetchs (payload) {
-    console.log('라우터네임좀1')
     return payload.id ? request.get(`${payload.routeName}/${payload.id}`) : request.get(`${payload.routeName}`)
   },
   // 보드,카드 수정
   update ({ routeName, id, info }) {
     return request.put(`${routeName}/${id}`, info)
   },
-  // 보드 삭제
+  // 보드,카드 삭제
   remove ({ routeName, id, BoardId }) {
     return BoardId ? request.delete(`${routeName}/${BoardId}/${id}`) : request.delete(`${routeName}/${id}`)
   }

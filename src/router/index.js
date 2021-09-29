@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 const isAuth = (to, from, next) => {
   if (to.meta.auth && !store.getters.getUser) {
     // 로그인이 필요하기 때문에 login할 수 있는 라우터로 리다이렉트 해준다.
-    const loginPath = `/login?rPath=${encodeURIComponent(to.path)}`
+    const loginPath = `/login?rPath=${to.path}`
     next(loginPath)
     return
   }
@@ -66,15 +66,7 @@ const routes = [{
 {
   path: '*',
   component: () => import('../views/PageNotFound.vue')
-  // meta:{auth:true},
-  // beforeEnter:isAuth
 }
-// {
-//   path: '/error',
-//   component: () => import('../views/test.vue')
-//   // meta:{auth:true},
-//   // beforeEnter:isAuth
-// }
 ]
 
 const router = new VueRouter({

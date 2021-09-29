@@ -25,6 +25,7 @@
           <v-btn color="secondary">카드 보기</v-btn>
         </router-link>
         <v-spacer></v-spacer>
+         <!-- 카드 상태여부를 확인하여 완료 표시를 보여줍니다. -->
         <v-icon v-if="card.complete" color="primary">mdi-check-circle</v-icon>
       </v-card-actions>
     </v-card>

@@ -2,6 +2,7 @@
     <v-stepper  class="card_step my-2 " :value="currentStep" alt-labels>
         <v-stepper-header height="100px" >
             <template v-for="n in steps">
+              <!-- 카드 스탭 진행중, 완료 보여주기 -->
                 <v-stepper-step class="pa-2" color="pink accent-2" :key="`step${n.step}`" :editable="edit.editState" :step="n.step" @click="changeStep(n.step)">
                     {{n.state}}
                 </v-stepper-step>

@@ -119,7 +119,7 @@ export default {
           info: data
         })
           .then((data) => {
-            // 추가한 카테고리 이미지를 불러오고 이미지가 로드되엇는지 확인
+            // 추가한 카테고리 이미지를 불러오고 이미지가 로드된 후 로딩 종료
             loadImage(data.category[0] || '')
             this.category.errmsg = ''
             this.categoryReset()

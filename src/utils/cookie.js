@@ -6,7 +6,7 @@ function saveAuthToCookie (value) {
 function saveUserToCookie (value) {
   document.cookie = `memo_user=${value}`
 }
-// 쿠키에 저장된 토근 정보 가져오기
+// 쿠키에 저장된 토큰 정보 가져오기
 function getAuthFromCookie () {
   return document.cookie.replace(
     /(?:(?:^|.*;\s*)memo_auth\s*=\s*([^;]*).*$)|^.*$/,

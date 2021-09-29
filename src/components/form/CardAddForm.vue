@@ -6,10 +6,12 @@
        @updateInput="onupdateInput"></category-list>
         <!-- 대표 카테 고리 -->
         <template v-if="hasSelectList">
+            <!-- 대표 카테고리가 없을 경우-->
             <v-alert class="caption py-2" v-if="!hasRepresentCategory" border="left" type="warning" colored-border
                 color="orange" elevation="2">
                 아래 카테고리 중 대표 카테고리를 선택해주세요
             </v-alert>
+            <!-- 대표 카테고리가 있을 경우 -->
             <v-container v-else class="d-flex">
                 <v-card-title class="pa-0">대표 카테고리</v-card-title>
                 <v-chip class="ml-1 font-weight-bold" style="font-size:18px;" text-color="white" color="cyan">
@@ -39,7 +41,7 @@
         <v-card-actions>
             <v-spacer></v-spacer>
             <router-link :to="`/board/${$route.params.id}`"><v-btn link color="blue daren-1" text>닫기</v-btn></router-link>
-            <v-btn color="green" :disabled="!valid ||!hasRepresentCategory" text outlined @click="onAddCard">생성</v-btn>
+            <v-btn class="add_btn" color="green" :disabled="!valid ||!hasRepresentCategory" text outlined @click="onAddCard">생성</v-btn>
         </v-card-actions>
     </v-form>
 </template>

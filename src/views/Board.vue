@@ -5,6 +5,7 @@
         <h1 class="subheading grey--text">카드</h1>
         <v-container>
             <v-row no-gutters>
+              <!-- 카드 리스트 -->
             <card-list v-for="card in cards" :key="card.id" :card="card"></card-list>
           </v-row>
         </v-container>
@@ -14,6 +15,7 @@
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </router-link>
+      <!-- 중첩 라우터 -->
       <router-view></router-view>
     </div>
   </div>

@@ -2,8 +2,10 @@
     <div>
         <v-card class="text-center ma-3" :style="`background-color:${board.bgcolor}`">
             <v-card-title>
+              <!-- 보드 제목 -->
                 <div class="subheading">{{board.title}}</div>
                 <v-spacer></v-spacer>
+                <!-- 보드 설명 -->
                 <span v-if="board.description">
                     <v-tooltip bottom>
                         <template v-slot:activator="{ on, attrs }">

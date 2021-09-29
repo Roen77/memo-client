@@ -11,6 +11,7 @@ export default {
   SET_USER (state, data) {
     state.user = data.user.nickname
     state.token = data.token
+    // 쿠키에 토큰과 사용자의 닉네임 정보 저장
     saveAuthToCookie(data.token)
     saveUserToCookie(data.user.nickname)
   },
@@ -22,7 +23,7 @@ export default {
   },
   // 보드/카드 추가
   ADD_LIST (state, list) {
-    state.dataList.unshift(list)
+    state.dataList = [list, ...state.dataList]
   },
   // 수정
   UPDATE_LIST (state, { list, id }) {

@@ -1,4 +1,4 @@
-import mutations from '../mutations.js'
+import mutations from '../mutations'
 
 describe('store/mutations.js', () => {
   test('사용자 정보(닉네임)과 토큰값을 초기화합니다.', async () => {

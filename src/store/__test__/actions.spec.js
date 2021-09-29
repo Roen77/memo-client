@@ -1,7 +1,7 @@
-import actions from '../actions.js'
-import mutations from '../mutations.js'
-import state from '../state.js'
-import { request } from '../../api/index.js'
+import actions from '../actions'
+import mutations from '../mutations'
+import state from '../state'
+import { request } from '../../api/index'
 
 describe('store/actions.js', () => {
   let commit
@@ -56,28 +56,25 @@ describe('store/actions.js', () => {
         lists: ['data1', 'data2', 'data3']
       }
     }
-    // const res={
-    //   data:{
-    //     cards:['card1','card2','card3'],
-    //     boards:['board1','board2','board3']
-    //   }
-    // }
-
     request.get = jest.fn().mockResolvedValue(res)
-    // 보드/카드 데이터
-    await dispatch('FETCHLISTS')
+    // 보드 데이터
+    await dispatch('FETCHLISTS', { routeName: 'boards' })
     expect(state.dataList).toEqual(res.data.lists)
-    // // 보드/카드 데이터
-    // await dispatch('FETCHLISTS',{routeName:'boards'})
-    // expect(state.boards).toEqual(res.data.boards)
-    // // 보드에 있는 카드 데이터
-    // await dispatch('FETCHLISTS',{routeName:'boards',id:1})
-    // expect(state.cards).toEqual(res.data.cards)
+    // 카드 데이터
+    await dispatch('FETCHLISTS', { routeName: 'boards', id: 1 })
+    expect(state.dataList).toEqual(res.data.lists)
     // 카드 단일 데이터
-    // await dispatch('FETCHLISTS',{routeName:'cards'})
-    // expect(state.card).toEqual(res.data.cards)
+    await dispatch('FETCHLISTS', { routeName: 'cards' })
   })
-  test('보드/카드 데이터를 추가할 시, 기존 보드/카드 데이터 목록의 가장 앞쪽으로 데이터가 추가됩니다.', async () => {
+
+  test('보드 데이터를 잘 가져오지 못한 경우 에러 유무를 확인합니다.', async () => {
+    const error = 'error occurred'
+    request.get = jest.fn().mockResolvedValue(new Error(error))
+    await dispatch('FETCHLISTS', { routeName: 'boards' })
+    expect(state.hasError).toBe(true)
+  })
+
+  test('보드 데이터를 추가할 시, 기존 보드 데이터 목록의 가장 앞쪽으로 데이터가 추가됩니다.', async () => {
     const res = {
       data: {
         list: {
@@ -88,36 +85,41 @@ describe('store/actions.js', () => {
           id: 1,
           title: 'sdf'
         }
-        //  card:{
-        //   BoardId:21,
-        //   CardTypes:['샘플카테고리'],
-        //   Category:Object,
-        //   CategoryId:1,
-        //   UserId:1,
-        //   bgcolor:"#FFF8E1",
-        //   complete:false,
-        //   createdAt:"2021-06-27T13:11:10.992Z",
-        //   description:"샘플 카드 내용 입니다",
-        //   id:33,
-        //   title:"샘플카드..",
-        //  }
       }
     }
     request.post = jest.fn().mockResolvedValue(res)
-    // 보드
-    await dispatch('CREATLIST')
+    await dispatch('CREATLIST', { routeName: 'boards' })
     expect(state.dataList[0]).toEqual(res.data.list)
-    // // 보드
-    // await dispatch('CREATLIST',{routeName:"boards"})
-    // expect(state.boards[0]).toEqual(res.data.board)
-    // // 카드
-    // await dispatch('CREATLIST',{routeName:"cards"})
-    // expect(state.cards[0]).toEqual(res.data.card)
   })
+  test('보드 데이터를 수정할 시, 기존 보드 데이터 목록에서 해당 데이터를 수정합니다.', async () => {
+    const res = {
+      data: {
+        lists: [{
+          id: 2,
+          title: 'title name',
+          bgcolor: '#888888'
+        }],
+        list: {
+          id: 1,
+          title: 'title',
+          bgcolor: '#7777'
+        }
+      }
+    }
+
+    request.get = jest.fn().mockResolvedValue(res)
+    await dispatch('FETCHLISTS', { routeName: 'boards' })
+
+    request.put = jest.fn().mockResolvedValue(res)
+    await dispatch('UPDATELIST', { routeName: 'boards', id: 2 })
+
+    expect(state.dataList[0].id).toBe(res.data.list.id)
+  })
+
   test('내가 삭제할 보드 데이터를 보드 목록에서 삭제합니다.', async () => {
     const res = {
       data: {
-        boards: [{
+        lists: [{
           id: 2,
           title: 'title name',
           bgcolor: '#888888'
@@ -125,11 +127,11 @@ describe('store/actions.js', () => {
       }
     }
     request.get = jest.fn().mockResolvedValue(res)
-    await dispatch('FETCHLISTS')
+    await dispatch('FETCHLISTS', { routeName: 'boards' })
 
     request.delete = jest.fn().mockResolvedValue(res)
     await dispatch('DELETELIST', { routeName: 'boards', id: 2 })
 
-    expect(state.boards.length).toBe(0)
+    expect(state.dataList.length).toBe(0)
   })
 })

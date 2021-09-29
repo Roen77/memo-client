@@ -18,7 +18,7 @@ export default {
   // 데이터 가져오기(보드,카드)
   async FETCHLISTS ({ commit }, payload) {
     try {
-      // 기존 데이터 초기화
+      // 기존 데이터 초기화 및 로딩 시작
       commit('UPDATE_STATE', {
         dataList: [],
         showCard: false,
@@ -27,6 +27,7 @@ export default {
       })
       let List
       const { data } = await list.fetchs(payload)
+      // 보드 데이터와 카드 데이터를 구분하여 데이터 저장
       data.lists ? List = { dataList: data.lists } : List = { unitCard: data.list }
       commit('UPDATE_STATE', {
         ...List,
@@ -34,13 +35,13 @@ export default {
       })
       return data
     } catch (error) {
-      // console.log('라우터',router)
-      // router.push('/error')
+      // 오류 시, 에러 페이지 보여주기
       commit('UPDATE_STATE', {
         hasError: true,
         errMsg: error.response
       })
     } finally {
+      // 로딩 종료
       commit('UPDATE_STATE', {
         loading: false
       })

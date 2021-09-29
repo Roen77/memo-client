@@ -1,7 +1,6 @@
 import { mapActions } from 'vuex'
 export default {
   created () {
-    console.log('패치데이터11')
     this.fetchData()
   },
   methods: {

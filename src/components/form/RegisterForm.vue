@@ -13,7 +13,7 @@
             <v-card-text class="mt-12">
                 <h1 class="text-center display-1 indigo--text ">회원가입</h1>
                 <h4 class="text-center mt-4">회원가입을 위해 작성해주세요.</h4>
-                <v-form ref="form" v-model="valid" @submit.prevent="userRegister">
+                <v-form class="regi" ref="form" v-model="valid" @submit.prevent="userRegister">
                     <v-text-field ref="input" v-model="email" label="이메일" name="email" :counter="20"  prepend-icon="mdi-email" type="text" color="indigo accent-2" :rules="emailRules"></v-text-field>
                     <v-text-field label="닉네임"
                     :counter="20" v-model="nickname" name="nickname" prepend-icon="mdi-account" type="text"
@@ -23,7 +23,7 @@
                         type="password" color="indigo accent-2" :rules="passwordRules"></v-text-field>
                     <v-alert v-if="errmsg" border="left" color="red" dense text type="error">{{errmsg}}</v-alert>
                     <div class="text-center mt-3">
-                        <v-btn rounded color="indigo accent-2" dark :disabled="!valid" type="submit">회원가입</v-btn>
+                        <v-btn class="register_btn" rounded color="indigo accent-2" dark :disabled="!valid" type="submit">회원가입</v-btn>
                     </div>
                 </v-form>
             </v-card-text>
