@@ -74,7 +74,6 @@ export default {
     }
   },
   created () {
-    console.log('카테고리 데이터 22')
     this.onFetchCategory()
   },
   computed: {

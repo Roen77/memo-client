@@ -110,7 +110,6 @@ export default {
   // 카테고리 가져오기
   async FETCHCATEGORYS ({ commit }, info) {
     try {
-      console.log('패치카테고리좀')
       const { data } = await category.fetchs(info)
       commit('UPDATE_STATE', {
         categoryList: data.categorys
