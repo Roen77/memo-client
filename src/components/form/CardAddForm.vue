@@ -7,14 +7,14 @@
         <!-- 대표 카테 고리 -->
         <template v-if="hasSelectList">
             <!-- 대표 카테고리가 없을 경우-->
-            <v-alert class="caption py-2" v-if="!hasRepresentCategory" border="left" type="warning" colored-border
-                color="orange" elevation="2">
+            <v-alert class="caption warn py-2" v-if="!hasRepresentCategory" border="left" type="error" colored-border
+                color="red" elevation="2">
                 아래 카테고리 중 대표 카테고리를 선택해주세요
             </v-alert>
             <!-- 대표 카테고리가 있을 경우 -->
             <v-container v-else class="d-flex">
                 <v-card-title class="pa-0">대표 카테고리</v-card-title>
-                <v-chip class="ml-1 font-weight-bold" style="font-size:18px;" text-color="white" color="cyan">
+                <v-chip class="ml-1 font-weight-bold" style="font-size:15px;" text-color="white" color="cyan">
                     {{ representCategory.type}}</v-chip>
             </v-container>
         </template>
@@ -115,5 +115,5 @@ export default {
 </script>
 
 <style>
-
+.warn.v-sheet{color:rgb(248, 53, 39);}
 </style>
