@@ -5,7 +5,7 @@
                 <template v-if="errMsg.status">
                     <v-card elevation="2" shaped>
                         <v-card-title>{{errMsg.status}}에러</v-card-title>
-                        <v-card-subtitle>{{errMsg.data && errMsg.data.msg}} || 존재하지 않는 페이지이거나 잘못된 페이지입니다.</v-card-subtitle>
+                        <v-card-subtitle>{{showMsg}}</v-card-subtitle>
                     </v-card>
                 </template>
             </v-col>
@@ -17,7 +17,11 @@
 import { mapState } from 'vuex'
 export default {
   computed: {
-    ...mapState(['hasError', 'errMsg'])
+    ...mapState(['hasError', 'errMsg']),
+    showMsg () {
+      if (this.errMsg.data && this.errMsg.data.msg) return this.errMsg.data.msg
+      return '존재하지 않는 페이지이거나 잘못된 페이지입니다.'
+    }
   }
 }
 </script>
