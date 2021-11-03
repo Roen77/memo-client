@@ -1,7 +1,7 @@
 <template>
     <v-form v-model="valid" class="px-3" ref="form">
         <!-- 카테고리 리스트 -->
-       <category-list :label="`추가 카테고리`" :noDataTxt="`추가할 카테고리가 없습니다.`" :categoryList="categoryList" v-model="selectList"
+       <category-list :label="`필수 카테고리`" :noDataTxt="`추가할 카테고리가 없습니다.`" :categoryList="categoryList" v-model="selectList"
        @clearCategory="categoryReset"
        @updateInput="onupdateInput"></category-list>
         <!-- 대표 카테 고리 -->
