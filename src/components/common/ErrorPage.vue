@@ -5,7 +5,7 @@
                 <template v-if="errMsg.status">
                     <v-card elevation="2" shaped>
                         <v-card-title>{{errMsg.status}}에러</v-card-title>
-                        <v-card-subtitle v-if="errMsg.data">{{errMsg.data.msg}}</v-card-subtitle>
+                        <v-card-subtitle>{{errMsg.data && errMsg.data.msg}} || 존재하지 않는 페이지이거나 잘못된 페이지입니다.</v-card-subtitle>
                     </v-card>
                 </template>
             </v-col>
