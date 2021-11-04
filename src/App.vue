@@ -1,5 +1,7 @@
 <template>
  <v-app>
+   <!-- ie 체크 -->
+   <ie-check></ie-check>
    <!-- 알림창 -->
    <alert-bar></alert-bar>
    <!-- 스피너 -->
@@ -30,9 +32,10 @@ import AppHeader from './components/common/AppHeader.vue'
 import ErrorPage from './components/common/ErrorPage.vue'
 import Navbar from './components/common/Navbar.vue'
 import Spinner from './components/common/Spinner.vue'
+import IeCheck from './components/IeCheck.vue'
 
 export default {
-  components: { Navbar, AppFooter, Spinner, AppHeader, AlertBar, ErrorPage },
+  components: { Navbar, AppFooter, Spinner, AppHeader, AlertBar, ErrorPage, IeCheck },
   name: 'App',
   computed: {
     ...mapGetters(['getUser'])
