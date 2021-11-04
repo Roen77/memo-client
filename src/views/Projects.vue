@@ -7,7 +7,7 @@
                 <v-col cols="12" md="12" class="ma-3">
                     <v-tooltip bottom>
                         <template v-slot:activator="{on}">
-                            <v-btn @click="onCompleteFetchCard" v-on="on" small :outlined="!cardComplete" color="blue darken-1" class="ing_card mr-2" dark>
+                            <v-btn :class="{'on':completeBtn}" @click="onCompleteFetchCard" v-on="on" small color="blue darken-1" class="ing_card mr-2 stateBtn" dark>
                                 <v-icon left small>mdi-folder</v-icon>
                                 <span class="caption text-lowercase">완료된 카드</span>
                             </v-btn>
@@ -16,7 +16,7 @@
                     </v-tooltip>
                     <v-tooltip bottom>
                         <template v-slot:activator="{on}">
-                            <v-btn v-on="on" small :outlined="cardIngBtn" color="blue darken-1" @click="ondisCompleteFetchCard" class="mr-2" dark>
+                            <v-btn :class="{'on':ingBtn}" v-on="on" small  color="blue darken-1" @click="ondisCompleteFetchCard" class="mr-2 stateBtn" dark>
                                 <v-icon left small>mdi-folder</v-icon>
                                 <span class="caption text-lowercase">진행중인 카드</span>
                             </v-btn>
@@ -45,7 +45,8 @@ export default {
   components: { InfiniteScroller },
   data () {
     return {
-      ingBtn: true
+      completeBtn: false,
+      ingBtn: false
     }
   },
   created () {
@@ -53,21 +54,15 @@ export default {
     if (this.searchList) this.UPDATE_STATE({ dataList: [] })
   },
   computed: {
-    ...mapState({ searchList: 'dataList', loading: 'loading' }),
-    // 진행상황에 따라 버튼 색 다르게 보여주기(완료된 카드 버튼)
-    cardComplete () {
-      return this.searchList[0] && this.searchList[0].complete
-    },
-    // 진행상황에 따라 버튼 색 다르게 보여주기(진행중인 카드 버튼)
-    cardIngBtn () {
-      return this.cardComplete || this.ingBtn
-    }
+    ...mapState({ searchList: 'dataList', loading: 'loading' })
   },
   methods: {
     ...mapActions(['FETCHSEARCHCARD']),
     ...mapMutations(['UPDATE_STATE']),
     // 완료된 카드 버튼 클릭시, 완료된 카드 가져오기
     onCompleteFetchCard () {
+      this.completeBtn = true
+      this.ingBtn = false
       this.FETCHSEARCHCARD({
         routeName: 'cards',
         complete: '2'
@@ -75,8 +70,8 @@ export default {
     },
     // 진행중인 카드 버튼 클릭시, 진행중인 카드 가져오기
     ondisCompleteFetchCard () {
-      // 진행중인 카드 버튼
-      this.ingBtn = false
+      this.ingBtn = true
+      this.completeBtn = false
       this.FETCHSEARCHCARD({
         routeName: 'cards',
         complete: '1'
@@ -87,6 +82,7 @@ export default {
 </script>
 
 <style scroped>
+button.v-btn.stateBtn.on{background-color: rgb(235, 41, 79) !important; font-weight: bold;}
 @media (max-width:360px) {
     .project .row{display: block;}
     .project .row button{display: block; margin-top: 2px;}
